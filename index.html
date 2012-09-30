@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>Oongly | A nodejs based tool for uploading/downloading files across machines and executing remote commands in non-homogenous systems</title>
-	<link href="http://fonts.googleapis.com/css?family=Source+Code+Pro:300|Lato:100,300,400,700,900|Open+Sans:100,200,300,400,700|PT+Sans:400,700,400italic,700italic|PT+Serif:400,700,400italic,700italic" rel="stylesheet" />
+	<link href="http://fonts.googleapis.com/css?family=Exo:200,400|Source+Code+Pro:300,400|Lato:100,300,400,700,900|Open+Sans:100,200,300,400,500,700" rel="stylesheet" />
 	<link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.min.css" />
 	<link rel="stylesheet" type="text/css" href="css/oongly.css" />
 	<script type="text/javascript" src="lib/jquery.min.js"></script>
@@ -19,17 +19,17 @@
 			<div class="span9" >
 					<div class="row">
 						<div class="span9" id="heading">
-							<h1>Oongly</h1>
+							<h1>Oongly<sup>beta</sup></h1>
 							<span class="description">
-							(n) A finger, in <a href="http://en.wikipedia.org/wiki/Hindi">Hindi</a> language <br/>
-							(n) A nodejs based tool for uploading/downloading files and executing remote commands in non-homogenous systems
+							<i>(n)</i> A finger, in <a href="http://en.wikipedia.org/wiki/Hindi">Hindi</a> language <br/>
+							<i>(n)</i> A nodejs based tool for uploading/downloading files and executing remote commands in non-homogenous systems
 							</span>
 						</div>
 					</div>
 					<div class="row" id="buttons">
 						<div class="span9">
 							<a href="https://github.com/ameyms/Oongly" class="btn btn-large">View on Github</a>
-							<a class="btn btn-large">Download</a>
+							<a href="#npm-download" class="btn btn-large">Download</a>
 						</div>
 					</div>
 			</div>
@@ -38,16 +38,70 @@
 			<div class="span12" id="usage">
 				<h2>Usage</h2>
 				Oongly comprises of two components:
-				<ul>
-					<li>oonglyd<br/>
-						<span class="muted">This is a simple HTTP server that one needs to spawn on the machine where remote commands need to be executed or files are to be uploaded to or downloaded from</span></li>
-					<li>oonglycli<br/>
-						<span class="muted">This is &apos;client&apos; CLI which provides options to invoke oongly functionality on any remote machine running a oonglyd service</span></li>
-					
+				<section class="usage-section">
+					<h4>oonglyd</h4>
+					<span class="subhead">This is a simple HTTP server that one needs to spawn on the machine where remote commands need to be executed or files are to be uploaded to or downloaded from</span>
+					<p>
+					To start the oongly daemon, use this command:
+					<code>$ oonglyd --port 8080</code>
+					Note that in above example <span class="code">--port</span> is an optional argument and by default spawns the daemon on port 8080.
+					</p>
+				</section>
+				<section>
+					<h4>oonglycli</h4>
+					<span class="subhead">This is &apos;client&apos; CLI which provides options to invoke oongly functionality on any remote machine running a oonglyd service</span>
+					<p>
+						Using oonglycli, one can perform following tasks
+						<p class="cli-task">
+							<h5>Upload a file</h5>
+							<code>
+								$ oonglycli --host foo.local --port 8080 --op upload --file /home/ameyms/foo.sh --remotepath /var/fubar/bar.sh
+							</code>
+						</p>
+						<p class="cli-task">
+							<h5>Download a file</h5>
+							<code>
+								$  oonglycli --host foo.local --port 8080 --op download --file /home/ameyms/foo.sh --remotepath /var/fubar/bar.sh
+							</code>
+						</p>
+						<p class="cli-task">
+							<h5>Execute a command</h5>
+							<code>
+								$  oonglycli --host foo.local --port 8080 --op cmd cat /home/amey/code/*.js foo | wc -l
+							</code>
+						</p>
+						<p>
+						In all of the above examples, <span class="code">--host</span> and <span class="code">--port</span> are optional. <span class="code">--host</span> defaults to <span class="code">localhost</span> and <span class="code">--port</span> defaults to <span class="code">8080</span>
+						</p>
+					</p>
+				</section>
+				<div class="alert"><b>NOTE:</b> Oongly does not support authentication (yet). So be careful!</div>
 			</div>
 		</div>
-
-
+		<div class="row">
+			<div class="span12" id="npm-download">
+				<h2>Download</h2>
+				You can install oonglycli as well as oonglyd via <a href="https://npmjs.org">npm</a>
+				<section>
+					<h4>oonglyd</h4>
+					To download and install oonglyd, run following command:
+					<code>
+						$ npm install -g oonglyd
+					</code>
+				</section>
+				<section>
+					<h4>oonglycli</h4>
+					To download and install oonglycli, run following command:
+					<code>
+						$ npm install -g oonglycli
+					</code>
+				</section>
+			</div>
+		</div>
 	</div>
+	<footer>
+		&copy;2012. <br/>
+		Built with love and lots of help from Bootstrap and NodeJS.
+	</footer>
 </body>
 </html>
