@@ -1,6 +1,6 @@
 {
   "name": "oonglyd",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A simple HTTP server that allows executing commands as well as uploading and downloading files from remote machines. Use with oonglycli",
   "main": "main.js",
   "dependencies": {
