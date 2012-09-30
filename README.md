@@ -1,6 +1,6 @@
 #Oongly
 _(n)_ A finger, in [Hindi language](http://en.wikipedia.org/wiki/Hindi)  
-_(n)_ A nodejs based tool for uploading/downloading files and executing remote commands in non-homogenous systems  
+_(n)_ A nodejs based tool for uploading/downloading files and executing remote commands in non-homogeneous systems  
  ---
 
 ###On Remote Server  
