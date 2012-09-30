@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Oongly | A nodejs based tool for uploading/downloading files across machines and executing remote commands in non-homogenous systems</title>
+	<link href="http://fonts.googleapis.com/css?family=Source+Code+Pro:300|Lato:100,300,400,700,900|Open+Sans:100,200,300,400,700|PT+Sans:400,700,400italic,700italic|PT+Serif:400,700,400italic,700italic" rel="stylesheet" />
+	<link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="css/oongly.css" />
+	<script type="text/javascript" src="lib/jquery.min.js"></script>
+	<script type="text/javascript" src="lib/bootstrap/js/bootstrap.min.js"></script>
+	<link href='https://plus.google.com/101640091246231296580/about' rel='author'/>
+</head>
+<body>
+	<div class="container">
+		<div class="row"  id="header">
+
+			<div class="span3">
+				<img src="oongly.png"/>
+			</div>
+			<div class="span9" >
+					<div class="row">
+						<div class="span9" id="heading">
+							<h1>Oongly</h1>
+							<span class="description">
+							(n) A finger, in <a href="http://en.wikipedia.org/wiki/Hindi">Hindi</a> language <br/>
+							(n) A nodejs based tool for uploading/downloading files and executing remote commands in non-homogenous systems
+							</span>
+						</div>
+					</div>
+					<div class="row" id="buttons">
+						<div class="span9">
+							<a href="https://github.com/ameyms/Oongly" class="btn btn-large">View on Github</a>
+							<a class="btn btn-large">Download</a>
+						</div>
+					</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="span12" id="usage">
+				<h2>Usage</h2>
+				Oongly comprises of two components:
+				<ul>
+					<li>oonglyd<br/>
+						<span class="muted">This is a simple HTTP server that one needs to spawn on the machine where remote commands need to be executed or files are to be uploaded to or downloaded from</span></li>
+					<li>oonglycli<br/>
+						<span class="muted">This is &apos;client&apos; CLI which provides options to invoke oongly functionality on any remote machine running a oonglyd service</span></li>
+					
+			</div>
+		</div>
+
+
+	</div>
+</body>
+</html>
