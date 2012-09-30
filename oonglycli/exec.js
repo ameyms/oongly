@@ -33,9 +33,10 @@ Executer.prototype.exec = function(cmd)
 
 				  res.setEncoding('utf8');
 				  res.on('data', function (chunk) {
-				    	if(chunk === '@@!FAIL')
+				    	if(chunk === '@@!FAIL!@@')
 				    	{
 				    		console.log(('Remote command execution FAILED').red);
+				    		process.exit(3);
 				    	}
 				    	else
 				    	{
@@ -48,6 +49,7 @@ Executer.prototype.exec = function(cmd)
 		{
 			console.log(('ERROR'.inverse.bold+' Remote command execution failed!').red);
 			console.log((err+'').red)
+			process.exit(3);
 		});
 
 		req.write("");
@@ -57,6 +59,7 @@ Executer.prototype.exec = function(cmd)
 	{
 		console.log('ERROR'.inverse.bold.red+' Remote command execution failed!'.red)
 		console.log((nfe+'').red)
+		process.exit(3);
 	}
 
 	

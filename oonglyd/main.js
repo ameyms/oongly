@@ -8,6 +8,7 @@ var http = require('http')
 
 var options
 ,	port
+,	wstream
 ,	execCmd;
 
 var knownOpts = {
@@ -19,6 +20,11 @@ options = nopt(knownOpts, {}, process.argv, 2);
 port = options.port || 8080;
 
 
+var logerr = function(res, err)
+{
+	res.end('@@!FAIL');
+	console.log(('[ERROR] '+err.bold).red);
+}
 
 var oonglyd = http.createServer(function (req, res) {
 
@@ -32,8 +38,30 @@ var oonglyd = http.createServer(function (req, res) {
 						if(params.op === 'upload')
 						{
 							console.log(('Request received for upload').grey);
-							req.pipe(fs.createWriteStream(params.topath));
-							res.end('OK');
+
+							try
+							{
+								wstream = fs.createWriteStream(params.topath);
+								wstream.on('error', function(err)
+								{
+									logerr(res,err);
+								});
+								wstream.on('end', function(){
+
+									res.end('OK');
+								});
+								req.on('error', function(err)
+								{
+									logerr(res,err);
+								});
+								req.pipe(wstream);
+								
+							}
+							catch(fex)
+							{
+								logerr(res, fex);
+							}
+
 						}
 						else if(params.op === 'download')
 						{
@@ -48,7 +76,7 @@ var oonglyd = http.createServer(function (req, res) {
 							  function (error, stdout, stderr) {
 							   
 							    if (error !== null) {
-							    	res.write('@@!FAIL')
+							    	res.write('@@!FAIL@@')
 							      console.log('exec error: '.red + error);
 							    }
 							});
@@ -64,7 +92,7 @@ var oonglyd = http.createServer(function (req, res) {
 					}
 					catch(nfe)
 					{
-						throw nfe;
+						logerr(res,nfe);
 					}
 
 				}).listen(port);

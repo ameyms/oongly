@@ -37,16 +37,20 @@ Uploader.prototype.upload = function(file, as)
 				    	{
 				    		console.log(('Upload completed successfuly').green);
 				    	}
-				    	else if(chunk === 'FAIL')
+				    	else if(chunk === '@@!FAIL')
 				    	{
-				    		console.log(('Upload FAILED').red);
+				    		self.indicateError('Call failed on remote host');
 				    	}
 				});
+				res.on('error', function(err)
+				{
+					self.indicateError(err);
+				})
 
 		});
 		req.on('error', function(err)
 		{
-			console.log(('ERROR'.inverse.bold+' Upload failed!').red);
+			self.indicateError(err);
 		});
 
 		fs.readFile(file, function (err, data) {
@@ -58,10 +62,17 @@ Uploader.prototype.upload = function(file, as)
 	}
 	catch(nfe)
 	{
-		console.log('ERROR'.inverse.bold.red+' Upload failed!'.red)
+		console.log('ERROR'.inverse.bold.red+(' Upload failed. '+err).red);
+		process.exit(1);
 	}
 
 	
+}
+
+Uploader.prototype.indicateError = function(err)
+{
+	console.log(('ERROR'.inverse.bold+' Upload failed!').red);
+	process.exit(1);
 }
 
 exports.createUploader = function(host, port)
