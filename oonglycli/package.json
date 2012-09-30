@@ -1,6 +1,6 @@
 {
   "name": "oonglycli",
-  "version": "0.1",
+  "version": "0.0.2",
   "description": "A commadline tool for executing remote commands as well as uploading and downloading files. Use with oonglyd ",
   "main": "main.js",
   "dependencies": {
