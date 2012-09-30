@@ -27,27 +27,39 @@ Uploader.prototype.upload = function(file, as)
 	  path: '/?'+params,
 	  method: 'POST'
 	};
+	try
+	{
+		var req = http.request(options, function(res) {
 
-	var req = http.request(options, function(res) {
+				  res.setEncoding('utf8');
+				  res.on('data', function (chunk) {
+				    	if(chunk === 'OK')
+				    	{
+				    		console.log(('Upload completed successfuly').green);
+				    	}
+				    	else if(chunk === 'FAIL')
+				    	{
+				    		console.log(('Upload FAILED').red);
+				    	}
+				});
 
-		  res.setEncoding('utf8');
-		  res.on('data', function (chunk) {
-		    	if(chunk === 'OK')
-		    	{
-		    		console.log(('Upload completed successfuly').green);
-		    	}
-		    	else if(chunk === 'FAIL')
-		    	{
-		    		console.log(('Upload FAILED').red);
-		    	}
 		});
-	});
-	fs.readFile(file, function (err, data) {
-	  if (err) throw err;
-	 
-	  req.write(data);
-	  req.end();
-	});
+		req.on('error', function(err)
+		{
+			console.log(('ERROR'.inverse.bold+' Upload failed!').red);
+		});
+
+		fs.readFile(file, function (err, data) {
+		  if (err) throw err;
+		 
+		  req.write(data);
+		  req.end();
+		});
+	}
+	catch(nfe)
+	{
+		console.log('ERROR'.inverse.bold.red+' Upload failed!'.red)
+	}
 
 	
 }

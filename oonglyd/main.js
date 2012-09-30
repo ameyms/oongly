@@ -3,10 +3,12 @@ var http = require('http')
 ,	querystring = require('querystring')
 ,	url = require('url')
 ,	colors = require('colors')
+,	exec = require('child_process').exec
 ,	fs = require('fs');
 
 var options
-,	port;
+,	port
+,	execCmd;
 
 var knownOpts = {
 	'port' : Number
@@ -37,6 +39,22 @@ var oonglyd = http.createServer(function (req, res) {
 						{
 							console.log(('Request received for download').grey);
 							fs.createReadStream(params.file).pipe(res);
+							
+						}
+						else if(params.op === 'cmd')
+						{
+							console.log(('Request received for rexec '+params.cmd.white).grey);
+							execCmd = exec(params.cmd,
+							  function (error, stdout, stderr) {
+							   
+							    if (error !== null) {
+							    	res.write('@@!FAIL')
+							      console.log('exec error: '.red + error);
+							    }
+							});
+							execCmd.stderr.pipe(res);
+							execCmd.stdout.pipe(res);
+							
 							
 						}
 						else 

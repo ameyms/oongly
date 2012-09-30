@@ -5,6 +5,7 @@ var nopt  = require('nopt')
   , fs = require('fs')
   , path = require('path')
   , url = require('url')
+  , colors = require('colors');
 
 
 var options
@@ -17,6 +18,7 @@ var options
 
 var knownOpts = { 
   'ip' : url
+, 'host' : url
 , 'port' : Number
 , 'op': String
 , 'file' : path
@@ -27,7 +29,7 @@ var knownOpts = {
 options = nopt(knownOpts, {}, process.argv, 2);
 
 port = options.port || 8080;
-ip = options.ip || 'localhost';
+ip = options.ip || options.host || 'localhost';
 op = options.op;
 file = options.file;
 remotepath = options.remotepath;
@@ -37,14 +39,21 @@ cmd = options.cmd;
 
 if(op === 'upload')
 {
-	if(file && remotepath)
+	try
 	{
-		var uploader = require('./uploader.js').createUploader(ip, port);
-		uploader.upload(file, remotepath);
+		if(file && remotepath)
+		{
+			var uploader = require('./uploader.js').createUploader(ip, port);
+			uploader.upload(file, remotepath);
+		}
+		else
+		{
+			console.log('Please specify all command line options');
+		}
 	}
-	else
+	catch(nfe)
 	{
-		console.log('Please specify all command line options');
+		console.log('ERROR'.red.inverse+' Upload failed!'.red)
 	}
 }
 
@@ -57,6 +66,43 @@ if(op === 'download')
 	}
 	else
 	{
-		console.log('Please specify all command line options');
+		console.log('Please specify all command line options'.magenta);
 	}
+}
+if(op === 'cmd')
+{
+	var p
+	,	temp
+	,	cmdAt = -1;
+
+	for(p = 0; p < process.argv.length; p++)
+	{
+		if(process.argv[p] === '--op' && process.argv[p+1] === 'cmd' && p+2 < process.argv.length)
+		{
+			cmdAt = p+2;
+			break;
+		}
+	}
+
+	if(cmdAt>0)
+	{
+		var cmdArgs = Array.prototype.slice.call(process.argv, cmdAt, process.argv.length);
+
+		for(p = 0; p< cmdArgs.length; p++)
+		{
+			if(cmdArgs[p].indexOf(' ') >=0 )
+			{
+				temp = cmdArgs[p];
+				cmdArgs[p] = '\"'+temp+'\"';
+			}
+		}
+
+		var executer = require('./exec.js').createExecuter(ip, port);
+		executer.exec(cmdArgs);
+	}
+	else
+	{
+		console.log('Please specify command'.magenta);
+	}
+	
 }
