@@ -17,8 +17,8 @@ var options
 ,	cmd;
 
 var knownOpts = { 
-  'ip' : url
-, 'host' : url
+  'ip' : String
+, 'host' : String
 , 'port' : Number
 , 'op': String
 , 'file' : path
@@ -36,6 +36,7 @@ remotepath = options.remotepath;
 cmd = options.cmd;
 
 
+console.log(options);
 
 if(op === 'upload')
 {
